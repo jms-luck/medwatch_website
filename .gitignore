@@ -3,3 +3,4 @@ downloads
 .vscode
 __pycache__
 test.ipynb
+yolov8.pt

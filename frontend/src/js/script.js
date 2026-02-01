@@ -6,10 +6,14 @@ function enterApplication() {
     showMessage('Welcome to MedWatch AI!');
     setTimeout(() => {
 <<<<<<< HEAD
+<<<<<<< HEAD
         window.location.href = 'home.html';
 =======
         window.location.href = '/home';
 >>>>>>> 932bf0f (v3)
+=======
+        window.location.href = 'home.html';
+>>>>>>> 82bcd79d164670407bb34766d33d1858e45a891a
     }, 1000);
 }
 
@@ -27,10 +31,14 @@ function logout() {
         console.warn('Unable to clear stored user profile', err);
     }
 <<<<<<< HEAD
+<<<<<<< HEAD
     window.location.href = 'login.html';
 =======
     window.location.href = '/';
 >>>>>>> 932bf0f (v3)
+=======
+    window.location.href = 'login.html';
+>>>>>>> 82bcd79d164670407bb34766d33d1858e45a891a
 }
 
 function storeUser(user) {
@@ -111,10 +119,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 // redirect to home page after successful login
                 setTimeout(() => {
 <<<<<<< HEAD
+<<<<<<< HEAD
                     window.location.href = 'home.html';
 =======
                     window.location.href = '/home';
 >>>>>>> 932bf0f (v3)
+=======
+                    window.location.href = 'home.html';
+>>>>>>> 82bcd79d164670407bb34766d33d1858e45a891a
                 }, 500);
             } catch (error) {
                 showMessage(error.message);
