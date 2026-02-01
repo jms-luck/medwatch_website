@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register Family - MedWatch AI</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <style>
+        .register-container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+
+        .register-form {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .form-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 2px solid #f0f0f0;
+            border-radius: 10px;
+        }
+
+        .form-section h3 {
+            color: #FF6B35;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #FF6B35;
+            padding-bottom: 10px;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .form-group {
+            flex: 1;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: #FF6B35;
+        }
+
+        .form-group textarea {
+            height: 80px;
+            resize: vertical;
+        }
+
+        .register-btn {
+            background: linear-gradient(135deg, #FF6B35 0%, #FFD700 100%);
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .register-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 107, 53, 0.3);
+        }
+
+        .back-btn {
+            background: #6c757d;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: background 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: #5a6268;
+        }
+
+        .success-message {
+            background: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            border: 1px solid #c3e6cb;
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                flex-direction: column;
+            }
+
+            .register-form {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>MedWatch AI</h1>
+    </header>
+    <nav>
+        <a href="home.html">Home</a>
+        <a href="home.html#about">About</a>
+        <a href="home.html#contact">Contact</a>
+        <a href="home.html#family">Family</a>
+        <button id="logoutBtn" class="logout-btn" type="button">Logout</button>
+    </nav>
+
+    <main class="register-container">
+        <h2>Register Family</h2>
+        <p>Register a new family unit with primary contact and family details.</p>
+
+        <form class="register-form" id="registerFamilyForm">
+            <!-- Family Details -->
+            <div class="form-section">
+                <h3>Family Details</h3>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="familyId">Family ID:</label>
+                        <input type="text" id="familyId" placeholder="e.g., FAM001" maxlength="10">
+                    </div>
+                    <div class="form-group">
+                        <label for="groupName">Group Name:</label>
+                        <input type="text" id="groupName" placeholder="e.g., Family Group A">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="role">Role:</label>
+                        <select id="role">
+                            <option value="">Select Role</option>
+                            <option value="admin">Admin</option>
+                            <option value="member">Member</option>
+                            <option value="viewer">Viewer</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="groupPass">Group Password:</label>
+                        <input type="text" id="groupPass" placeholder="e.g., pass1234">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="mailId">Mail ID:</label>
+                        <input type="email" id="mailId" placeholder="e.g., family@example.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="camUrl">Cam URL:</label>
+                        <input type="url" id="camUrl" placeholder="e.g., https://example.com/camera">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="phoneNumber">Phone Number:</label>
+                        <input type="tel" id="phoneNumber" placeholder="e.g., +1-123-456-7890">
+                    </div>
+                    <div class="form-group">
+                        <label for="name">Name:</label>
+                        <input type="text" id="name" placeholder="e.g., Family Contact">
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="register-btn">Register Family</button>
+            <button type="button" class="back-btn" onclick="window.location.href='home.html#family'">Back to Family Management</button>
+        </form>
+
+        <section class="form-section" style="margin-top:1.5rem;">
+            <h3>Existing Families</h3>
+            <div id="familyList" class="family-list"></div>
+        </section>
+
+        <div class="success-message" id="successMessage">
+            <strong>Success!</strong> Family has been registered successfully. You can now add individual family members.
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 MedWatch AI. All rights reserved.</p>
+    </footer>
+
+    <script>
+        const API_BASE_URL = 'http://localhost:8000';
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Logout buttons
+            document.querySelectorAll('.logout-btn').forEach(btn => btn.addEventListener('click', () => {
+                try { localStorage.removeItem('mwUser'); } catch (e) {}
+                window.location.href = 'login.html';
+            }));
+
+            // Load families immediately
+            fetchFamilies();
+        });
+
+        async function fetchFamilies() {
+            const list = document.getElementById('familyList');
+            list.innerHTML = 'Loading families...';
+            try {
+                const res = await fetch(`${API_BASE_URL}/families`);
+                if (!res.ok) throw new Error('Failed to load families');
+                const data = await res.json();
+                renderFamilies(data.families || []);
+            } catch (err) {
+                list.innerHTML = 'Could not load families.';
+                console.error(err);
+            }
+        }
+
+        function renderFamilies(families) {
+            const list = document.getElementById('familyList');
+            if (!families.length) {
+                list.innerHTML = '<p>No families found.</p>';
+                return;
+            }
+
+            list.innerHTML = families.map(fam => `
+                <div class="family-item">
+                    <div class="family-info">
+                        <h4>${fam.group_name || 'N/A'} (${fam.family_id || 'N/A'})</h4>
+                        <p>Role: ${fam.role || 'N/A'}</p>
+                        <p>Email: ${fam.mail_id || 'N/A'}</p>
+                        <p>Phone: ${fam.phone_number || 'N/A'}</p>
+                        <p>Cam URL: ${fam.cam_url || 'N/A'}</p>
+                        <p>Name: ${fam.name || 'N/A'}</p>
+                        <p>Group Pass: ${fam.group_pass || 'N/A'}</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Form submission
+        document.getElementById('registerFamilyForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const familyData = {
+                family_id: document.getElementById('familyId').value,
+                group_name: document.getElementById('groupName').value,
+                role: document.getElementById('role').value,
+                mail_id: document.getElementById('mailId').value,
+                cam_url: document.getElementById('camUrl').value,
+                phone_number: document.getElementById('phoneNumber').value,
+                name: document.getElementById('name').value,
+                group_pass: document.getElementById('groupPass').value
+            };
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/register_family`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(familyData)
+                });
+
+                if (response.ok) {
+                    document.getElementById('successMessage').style.display = 'block';
+                    document.getElementById('registerFamilyForm').reset();
+                    document.getElementById('successMessage').scrollIntoView({ behavior: 'smooth' });
+                    setTimeout(() => {
+                        document.getElementById('successMessage').style.display = 'none';
+                    }, 5000);
+                    fetchFamilies();
+                } else {
+                    alert('Failed to register family: ' + response.statusText);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An error occurred while registering the family.');
+            }
+        });
+
+        // Notification code
+        if ('Notification' in window) {
+            if (Notification.permission === 'granted') {
+                new Notification('Family Registration - MedWatch AI');
+            } else if (Notification.permission !== 'denied') {
+                Notification.requestPermission().then(permission => {
+                    if (permission === 'granted') {
+                        new Notification('Family Registration - MedWatch AI');
+                    }
+                });
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Family Members - MedWatch AI</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <style>
+        .members-container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+
+        .members-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .add-member-btn {
+            background: linear-gradient(135deg, #FF6B35 0%, #FFD700 100%);
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .add-member-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3);
+        }
+
+        .members-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .member-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .member-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            border-color: #FF6B35;
+        }
+
+        .member-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .member-name {
+            font-size: 18px;
+            font-weight: bold;
+            color: #FF6B35;
+            margin: 0;
+        }
+
+        .member-relation {
+            background: #FFD700;
+            color: #333;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .member-info {
+            margin-bottom: 15px;
+        }
+
+        .member-info p {
+            margin: 5px 0;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .member-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+
+        .btn-small {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .btn-edit {
+            background: #FFD700;
+            color: #333;
+        }
+
+        .btn-edit:hover {
+            background: #FFC107;
+        }
+
+        .btn-delete {
+            background: #dc3545;
+            color: white;
+        }
+
+        .btn-delete:hover {
+            background: #c82333;
+        }
+
+        .btn-view {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-view:hover {
+            background: #218838;
+        }
+
+        .member-form {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .member-form.show {
+            display: block;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .form-group {
+            flex: 1;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: #FF6B35;
+        }
+
+        .stats-section {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 15px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 10px;
+        }
+
+        .stat-number {
+            font-size: 24px;
+            font-weight: bold;
+            color: #FF6B35;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .search-section {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .filter-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 8px 16px;
+            border: 2px solid #FF6B35;
+            background: white;
+            color: #FF6B35;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            background: #FF6B35;
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .members-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-row {
+                flex-direction: column;
+            }
+
+            .members-header {
+                flex-direction: column;
+                gap: 15px;
+                align-items: stretch;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>MedWatch AI</h1>
+    </header>
+    <nav>
+        <a href="home.html">Home</a>
+        <a href="home.html#about">About</a>
+        <a href="home.html#contact">Contact</a>
+        <a href="#" id="familyNavLink">Family</a>
+        <button id="logoutBtn" style="float:right; margin-top:0.5rem;">Logout</button>
+    </nav>
+
+    <main class="members-container">
+
+        <section class="form-section" style="margin-bottom: 20px;">
+            <h3>Available Family IDs</h3>
+            <ul id="familyIdList" style="margin-top: 10px; padding-left: 20px; font-size: 16px; color: #333; line-height: 1.8;">
+                <li>Loading Family IDs...</li>
+            </ul>
+        </section>
+
+       
+           
+
+        <!-- Members Grid -->
+        <div class="members-grid" id="membersGrid">
+            <!-- Family members will be displayed here -->
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 MedWatch AI. All rights reserved.</p>
+    </footer>
+
+    <script>
+const API_BASE_URL = "http://localhost:8000";
+
+async function fetchFamilyIds() {
+    const list = document.getElementById("familyIdList");
+    list.innerHTML = "<li>Loading Family IDs...</li>";
+
+    try {
+        const response = await fetch(`${API_BASE_URL}/families`);
+        if (!response.ok) throw new Error("Failed to fetch");
+
+        const data = await response.json();
+        const families = data.families || [];
+
+        if (families.length === 0) {
+            list.innerHTML = "<li>No Family IDs found</li>";
+            return;
+        }
+
+        list.innerHTML = families
+            .map(fam => `<li style="cursor: pointer; color: #FF6B35; font-weight: bold; padding: 5px; transition: all 0.3s ease;" 
+                onmouseover="this.style.backgroundColor='#f8f9fa'; this.style.paddingLeft='10px';" 
+                onmouseout="this.style.backgroundColor='transparent'; this.style.paddingLeft='5px';" 
+                onclick="joinFamily('${fam.family_id}', '${fam.group_name}')">
+                🔑 <strong>${fam.family_id}</strong> - ${fam.group_name}
+            </li>`)
+            .join("");
+
+    } catch (error) {
+        console.error(error);
+        list.innerHTML = "<li>Error loading Family IDs</li>";
+    }
+}
+
+async function joinFamily(familyId, groupName) {
+    const password = prompt(`Enter password for family "${groupName}" (ID: ${familyId}):`);
+    
+    if (!password) {
+        alert("Password is required to join the family.");
+        return;
+    }
+
+    try {
+        const response = await fetch(`${API_BASE_URL}/join_family`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                family_id: familyId,
+                group_name: groupName,
+                group_pass: password,
+                role: "",
+                mail_id: "",
+                cam_url: "",
+                phone_number: "",
+                name: ""
+            })
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            // Password is correct, now collect member details to store in SQL table
+            const memberName = prompt("Enter your name:");
+            if (!memberName || memberName.trim() === "") {
+                alert("Name is required to join the family.");
+                return;
+            }
+
+            const memberEmail = prompt("Enter your email:");
+            if (!memberEmail || memberEmail.trim() === "") {
+                alert("Email is required to join the family.");
+                return;
+            }
+
+            const memberPhone = prompt("Enter your phone number:");
+            if (!memberPhone || memberPhone.trim() === "") {
+                alert("Phone number is required to join the family.");
+                return;
+            }
+
+            // Store member details in SQL database table Family_{familyId}
+            const addMemberResponse = await fetch(`${API_BASE_URL}/add_family_member`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    family_id: familyId,
+                    name: memberName.trim(),
+                    mail_id: memberEmail.trim(),
+                    phone_number: memberPhone.trim()
+                })
+            });
+
+            const memberData = await addMemberResponse.json();
+
+            if (addMemberResponse.ok) {
+                alert(`✅ Successfully joined family "${groupName}"!\n\nYour details have been stored in the database:\n- Name: ${memberName}\n- Email: ${memberEmail}\n- Phone: ${memberPhone}\n- Family ID: ${familyId}\n\nTable: Family_${familyId}`);
+                // Optionally redirect to family details page
+                // window.location.href = "family_details.html?id=" + familyId;
+            } else {
+                alert(`❌ Password verified but failed to add member to database: ${memberData.detail || 'Unknown error'}`);
+            }
+        } else {
+            // Handle validation errors properly
+            let errorMessage = "Failed to join family. Please check the password.";
+            if (data.detail) {
+                if (Array.isArray(data.detail)) {
+                    errorMessage = data.detail.map(err => `${err.loc.join('.')}: ${err.msg}`).join('\n');
+                } else if (typeof data.detail === 'string') {
+                    errorMessage = data.detail;
+                } else {
+                    errorMessage = JSON.stringify(data.detail);
+                }
+            }
+            alert(`❌ ${errorMessage}`);
+        }
+
+    } catch (error) {
+        console.error(error);
+        alert("❌ Error connecting to server. Please try again later.");
+    }
+}
+
+// Load on page start
+document.addEventListener("DOMContentLoaded", fetchFamilyIds);
+</script>
+
+    </script>
+</body>
+</html>
