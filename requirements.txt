@@ -1,0 +1,15 @@
+opencv-contrib-python
+mediapipe
+protobuf<5
+fastapi
+uvicorn
+ultralytics
+openvino-dev
+numpy
+pymysql
+pyodbc
+dotenv
+fastapi
+pymssql
+pyodbc
+

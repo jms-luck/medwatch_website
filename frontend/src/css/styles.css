@@ -1,0 +1,550 @@
+/* styles.css */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background: linear-gradient(135deg, #ffffff 0%, #f5f5f5 100%);
+    min-height: 100vh;
+}
+
+header {
+    background: linear-gradient(135deg, #FF6B35 0%, #FFD700 100%);
+    color: #fff;
+    padding: 1.5rem;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+header h1 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+nav {
+    background: #444;
+    padding: 0.5rem;
+}
+
+nav a {
+    color: #fff;
+    text-decoration: none;
+    margin: 0 1rem;
+    transition: color 0.3s ease;
+}
+
+nav a:hover {
+    color: #FFD700;
+    text-decoration: underline;
+}
+
+#logoutBtn {
+    background: linear-gradient(135deg, #FF6B35 0%, #FFD700 100%);
+    color: #fff;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.logout-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 0.3rem 0.6rem;
+    font-size: 0.8rem;
+    border-radius: 5px;
+    z-index: 2;
+}
+
+#logoutBtn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 6px rgba(255, 107, 53, 0.3);
+}
+
+main {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+section {
+    background: #fff;
+    border-radius: 15px;
+    padding: 2rem;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+}
+
+section:hover {
+    border-color: #FF6B35;
+    box-shadow: 0 12px 40px rgba(255, 107, 53, 0.2);
+}
+
+h2 {
+    color: #FF6B35;
+    margin-bottom: 1.5rem;
+    font-size: 2rem;
+    text-align: center;
+}
+
+h3 {
+    color: #FFD700;
+    margin: 1.5rem 0 1rem;
+    font-size: 1.5rem;
+    text-align: center;
+}
+
+form {
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #333;
+    font-weight: bold;
+}
+
+input {
+    width: 100%;
+    padding: 0.75rem;
+    margin-bottom: 1rem;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+input:focus {
+    outline: none;
+    border-color: #FF6B35;
+    box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
+}
+
+button {
+    width: 100%;
+    padding: 0.75rem;
+    background: linear-gradient(135deg, #FF6B35 0%, #FFD700 100%);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-bottom: 0.5rem;
+}
+
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3);
+}
+
+button:active {
+    transform: translateY(0);
+}
+
+#signupBtn {
+    background: linear-gradient(135deg, #FFD700 0%, #FF6B35 100%);
+}
+
+#googleBtn {
+    background: #4285F4;
+    margin-top: 1rem;
+}
+
+#googleBtn:hover {
+    background: #3367D6;
+}
+
+#sendCodeBtn, #verifyCodeBtn {
+    width: auto;
+    margin-right: 0.5rem;
+}
+
+#verificationCode, #verifyCodeBtn {
+    display: none;
+}
+
+#recaptcha-container {
+    margin: 1rem 0;
+    display: flex;
+    justify-content: center;
+}
+
+#message {
+    text-align: center;
+    margin-top: 1rem;
+    font-weight: bold;
+    min-height: 1.5rem;
+}
+
+footer {
+    background: linear-gradient(135deg, #FF6B35 0%, #FFD700 100%);
+    color: #fff;
+    text-align: center;
+    padding: 1rem;
+    margin-top: 2rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+
+/* Responsive design */
+@media (max-width: 900px) {
+    main, .register-container, .history-container, .members-container, .family-container {
+        max-width: 98vw;
+        padding: 0 1vw;
+    }
+    section, .register-form, .family-tree, .record-card, .member-card {
+        padding: 1.2rem;
+    }
+    .dashboard-grid, .members-grid {
+        gap: 1rem;
+    }
+}
+
+@media (max-width: 768px) {
+    header h1 {
+        font-size: 1.5rem;
+    }
+    nav {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 0.5rem 0.5rem 0.5rem 0.5rem;
+    }
+    nav a, nav button, #logoutBtn {
+        display: block;
+        margin: 0.3rem 0;
+        width: 100%;
+        text-align: left;
+    }
+    .form-row {
+        flex-direction: column !important;
+        gap: 0;
+    }
+    .register-form, .form-section, .family-tree, .record-card, .member-card {
+        padding: 1rem;
+    }
+    .dashboard-grid, .members-grid {
+        grid-template-columns: 1fr !important;
+    }
+    .family-header, .members-header, .history-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+    .dropdown, .dropdown-content {
+        min-width: 100%;
+        position: static !important;
+        float: none !important;
+    }
+    .dropdown-content a {
+        padding: 10px 8px;
+    }
+    .success-message {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 600px) {
+    header, footer {
+        padding: 0.7rem;
+    }
+    main, .register-container, .history-container, .members-container, .family-container {
+        padding: 0 0.2rem;
+    }
+    section, .register-form, .form-section, .family-tree, .record-card, .member-card {
+        padding: 0.7rem;
+        font-size: 0.98rem;
+    }
+    h2 {
+        font-size: 1.2rem;
+    }
+    h3 {
+        font-size: 1rem;
+    }
+    input, select, textarea, button {
+        font-size: 0.98rem;
+        padding: 0.5rem;
+    }
+    .dashboard-grid, .members-grid {
+        grid-template-columns: 1fr !important;
+        gap: 0.5rem;
+    }
+    .family-member {
+        width: 60px;
+        height: 60px;
+        line-height: 60px;
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 400px) {
+    header h1, h2, h3 {
+        font-size: 1rem !important;
+    }
+    nav, footer {
+        font-size: 0.9rem;
+    }
+    .register-btn, .back-btn, button, input, select, textarea {
+        font-size: 0.9rem;
+        padding: 0.4rem;
+    }
+    .form-group label {
+        font-size: 0.95rem;
+    }
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+section {
+    animation: fadeIn 0.5s ease-out;
+}
+/* ============================= */
+/* Professional Dashboard Layout */
+/* ============================= */
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+    margin-top: 40px;
+}
+
+.dashboard-card {
+    background: white;
+    border-radius: 18px;
+    padding: 28px;
+
+    min-height: 150px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+    border-left: 6px solid #FF6B35;
+
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.dashboard-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 14px 30px rgba(0,0,0,0.15);
+}
+
+.dashboard-card h3 {
+    font-size: 20px;
+    color: #FF6B35;
+    margin-bottom: 8px;
+}
+
+.dashboard-card p {
+    color: #555;
+    font-size: 14px;
+}
+
+.card-btn {
+    background: linear-gradient(135deg, #FF6B35, #FFD700);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 13px;
+    width: fit-content;
+    margin-top: 12px;
+}
+
+@media(max-width: 1000px){
+    .dashboard-grid{
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media(max-width: 600px){
+    .dashboard-grid{
+        grid-template-columns: 1fr;
+    }
+}
+/* ============================= */
+/* PROFESSIONAL DASHBOARD THEME */
+/* ============================= */
+
+/* Hospital background image */
+body {
+    background:
+        linear-gradient(rgba(10,20,40,0.75), rgba(10,20,40,0.75)),
+        url("https://images.unsplash.com/photo-1587351021759-3e566b6af7cc?q=80&w=1600&auto=format&fit=crop");
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center;
+    color: #fff;
+}
+
+
+/* Make sections glass style instead of white */
+section {
+    background: rgba(255,255,255,0.08);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+
+    border: 1px solid rgba(255,255,255,0.15);
+
+    box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+}
+
+
+/* Header darker for contrast */
+header {
+    background: linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+}
+
+
+/* Nav darker */
+nav {
+    background: rgba(0,0,0,0.65);
+}
+
+
+/* Dashboard cards modern look */
+.dashboard-card {
+    background: rgba(255,255,255,0.12);
+
+    backdrop-filter: blur(10px);
+
+    border: 1px solid rgba(255,255,255,0.2);
+
+    border-left: 5px solid #FFD700;
+
+    color: white;
+}
+
+
+.dashboard-card h3 {
+    color: #FFD700;
+}
+
+
+.dashboard-card p {
+    color: #eee;
+}
+
+
+/* Hover glow */
+.dashboard-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 18px 45px rgba(255,215,0,0.35);
+}
+
+
+/* Buttons */
+button, .card-btn {
+    background: linear-gradient(135deg,#FF6B35,#FFD700);
+    color: #111;
+    font-weight: bold;
+}
+/* ============================= */
+/* TEXT VISIBILITY FIXES */
+/* ============================= */
+
+/* All main text */
+body {
+    color: #f5f7fa;
+}
+
+/* Section headings */
+h2 {
+    color: #FFD700;
+}
+
+/* Card titles */
+.dashboard-card h3 {
+    color: #FFD700;
+    font-weight: 700;
+}
+
+/* Paragraph text inside cards */
+.dashboard-card p {
+    color: #e8eef6;
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+/* Small text */
+.dashboard-card span {
+    color: #ffffff;
+    font-weight: 600;
+}
+
+/* Status labels */
+.status-indicator + span,
+.dashboard-card div {
+    color: #ffffff;
+}
+
+/* ALERT TEXT specifically */
+.dashboard-card .alert-text {
+    color: #FFD700;
+    font-weight: bold;
+}
+
+/* Make ALL links readable */
+a {
+    color: #FFD700;
+}
+
+/* Improve card contrast */
+.dashboard-card {
+    background: rgba(25, 35, 55, 0.85); /* darker card */
+}
+/* ============================= */
+/* STATUS TEXT FIX */
+/* ============================= */
+
+.status-indicator + span,
+.hospital-card div,
+.dashboard-card span {
+    color: #222 !important;   /* dark text for readability */
+    font-weight: 600;
+}
+/* ============================= */
+/* PROFESSIONAL CARD STYLE */
+/* ============================= */
+
+.dashboard-card {
+    background: #ffffff;
+    color: #222;
+    border-left: 6px solid #FF6B35;
+}
+
+.dashboard-card h3 {
+    color: #FF6B35;
+}
+
+.dashboard-card p {
+    color: #444;
+}

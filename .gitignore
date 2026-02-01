@@ -1,0 +1,5 @@
+downloads
+.env
+.vscode
+__pycache__
+test.ipynb
